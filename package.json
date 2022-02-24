@@ -1,0 +1,36 @@
+{
+  "name": "vii-chan_dc",
+  "version": "1.0.0",
+  "description": "A Valorant Store checker with different features such as Skin Waiting. It'll wait for that skin for you and notify you when it is on your shop.",
+  "main": "_app.js",
+  "scripts": {
+    "test": "node _app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weedeej/Vii-Chan-DC.git"
+  },
+  "keywords": [
+    "Store_Checker",
+    "Valorant",
+    "Store",
+    "Daily",
+    "Offers",
+    "Val"
+  ],
+  "author": "weedeej",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/weedeej/Vii-Chan-DC/issues"
+  },
+  "homepage": "https://github.com/weedeej/Vii-Chan-DC#readme",
+  "dependencies": {
+    "@discordjs/rest": "^0.3.0",
+    "discord-api-types": "^0.27.3",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0"
+  }
+}
