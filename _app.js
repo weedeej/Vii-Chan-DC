@@ -31,14 +31,16 @@ client.once('ready', async () => {
 client.on('interactionCreate', async interaction => {
     if (interaction.isCommand())
     {
-        await interaction.deferReply(); // Defer the reply until we're ready
+         // Defer the reply until we're ready
         const { commandName } = interaction;
         const params = interaction.options;
         switch(commandName)
         {
             case "dailybeta":
+                await interaction.deferReply();
                 return await daily(interaction);
             case "watchbeta":
+                await interaction.deferReply({fetchReply: true});
                 return await watch(interaction, params, skinslist);
             case "waitlistbeta":// This is next
                 return await interaction.editReply(CreateEmbed({title:"Test Embed", description:"This is a test embed"}));

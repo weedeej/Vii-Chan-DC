@@ -65,7 +65,7 @@ export async function watch(interaction, params, skinlist) {
         buttonCount++;
     }
     Logger.info('Creating embed.', senderID); 
-    const embed = CreateEmbed({
+    let embed = CreateEmbed({
         title:"W A T C H",
         description:"Use the button below to select what you want to watch.",
         fields
@@ -86,16 +86,23 @@ export async function watch(interaction, params, skinlist) {
         return senderID === buttonInteraction.user.id;
     }
 
-    const buttonPressListener = interaction.channel.createMessageComponentCollector({filter, max:1, time: 10000 });
+    const buttonPressListener = interaction.channel.createMessageComponentCollector({ filter, max:1, time: 60000, componentType: 'BUTTON' });
     buttonPressListener.on('collect', async i => {
         Logger.info(`Button pressed: ${i.customId}`, senderID);
         const buttonId = i.customId.split("_");
         switch (buttonId[0]) {
             case "watch":
-                await i.deferUpdate();
                 return await watch_button_action(i, buttonId[1]);
         }
     });
+
+    buttonPressListener.on('end', async (i) => {
+        if (i.first() === undefined){
+            embed = CreateEmbed({title:"W A T C H - Error", description:"This interaction is no longer valid as 60 seconds has already passed."});
+            embed["components"] = [];
+            return await interaction.editReply(embed);
+        }
+    })
 }
 
 export async function watch_button_action(interaction, skinId) {
