@@ -3,6 +3,7 @@ import { joinImages } from 'join-images';
 import { CreateEmbed } from '../Utilities/EmbedGenerator.js';
 import { MessageActionRow, MessageAttachment, MessageButton } from 'discord.js';
 import { Logger } from '../Utilities/Logger.js';
+import FetchUser from '../Utilities/FetchUser.js';
 import fs from 'fs';
 import axios from 'axios';
 
@@ -18,38 +19,7 @@ export async function daily(interaction) {
     Logger.info(`Sent a daily command >>`, senderID);
     const startMills = Date.now();
 
-    const resp = await Instance.get(`/store/${senderID}/check?updater_id=${updater[0]}&key=${privacyKey}`).catch( async err => {
-        Logger.error(err, senderID);
-        if (err.response.status == 404) {
-            Logger.error("User has no session", senderID);
-            const embed = CreateEmbed({title:"Error ", description:"Your session can't be found in our list. Please consider adding your session by clicking the button below", color:'#eb4034', footer: {text: "If other users click the link, You will be able to use their account session instead of yours."}});
-            embed["components"] = [
-                new MessageActionRow().addComponents(
-                    new MessageButton()
-                        .setLabel("Add Session")
-                        .setURL(`https://vtools-next.vercel.app/auth?id=${senderID}`)
-                        .setStyle('LINK')
-                )
-            ];
-            await interaction.editReply(embed);
-            return 0;
-        }else if(err.response.status == 400 || err.response.status == 401) {
-            Logger.error("User has expired session", senderID);
-            const embed = CreateEmbed({title:"Error ", description:"Your session has expired because you changed password/riot's update revoked it. Please update your session by clicking the button below", color:'#eb4034', footer: {text: "If other users click the link, You will be able to use their account session instead of yours."}});
-            embed["components"] = [
-                new MessageActionRow().addComponents(
-                    new MessageButton()
-                        .setLabel("Add Session")
-                        .setURL(`https://vtools-next.vercel.app/auth?id=${senderID}`)
-                        .setStyle('LINK')
-                )
-            ];
-            await interaction.editReply(embed);
-            return 0;
-        }
-        await interaction.editReply(CreateEmbed({title:"Error", description:"Something went wrong while fetching store. Please try again later.", color:'#eb4034'}));
-        return 0;
-    });
+    const resp = await FetchUser(interaction, senderID);
     if (resp == 0) return;
     const offers = resp.data.offersData;
     const {valorantPoints, radianitePoints} = resp.data.wallet;

@@ -110,14 +110,13 @@ export async function watch_button_action(interaction, skinId) {
     Logger.info(`Received a watch button action >>`, senderID);
     const startMills = Date.now();
 
-    const resp = await Instance.get(`/store/${senderID}/add/${skinId}?updater_id=${updater[0]}&key=${privacyKey}`).catch(async err => {
+    const resp = await Instance.put(`/store/${senderID}/add/${skinId}?updater_id=${updater[0]}&key=${privacyKey}`).catch(async err => {
         Logger.error(err, senderID);
-        return await interaction.update(CreateEmbed({title:"Error", description:"Something went wrong while adding. Please try again later.", color:'#eb4034'}));
+        const errorEmbed = CreateEmbed({title:"Error", description:err.response.data.error, color:'#eb4034'});
+        errorEmbed["components"] = [];
+        return await interaction.update(errorEmbed);
     });
-    if(resp.status != 200) { 
-        Logger.error(`Error adding skin to waitlist: ${resp.status}`, senderID);
-        return await interaction.update(CreateEmbed({title:"Error", description:"Something went wrong while adding. Please try again later.", color:'#eb4034'}));
-    }
+    if (resp === undefined) return;
     Logger.info(`Added to waitlist. Reflecting Response.`, senderID);
     const skinData = resp.data.data;
     Logger.info(`Creating Embed`, senderID);

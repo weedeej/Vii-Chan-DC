@@ -8,9 +8,14 @@ import { CreateEmbed } from './Utilities/EmbedGenerator.js';
 import { ObtainSkinlist } from './Utilities/SkinsListFetch.js'
 // Commands
 import { daily } from './Commands/daily.js';
-import { watch, watch_button_action } from './Commands/watch.js';;
+import { watch } from './Commands/watch.js';
+import { waitlist } from './Commands/waitlist.js';
 // Logger
 import { Logger } from './Utilities/Logger.js';
+//Cron
+import cron from 'node-cron';
+import { DailyCheck } from './Cron/DailyCheck.js';
+
 // Client Instance
 const token = process.env.DISCORD_BOT_TOKEN;
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
@@ -25,6 +30,11 @@ client.once('ready', async () => {
         return;
     }
     Logger.info(`Skinlist Obtained : ${skinslist.riotClientVersion}`);
+    Logger.info("Running task for store checking");
+    cron.schedule("0 0 8 * * *", async () => {
+        Logger.info("Running task for store checking");
+        await DailyCheck(client,skinslist);
+    }, { timezone: "Asia/Manila" });
     Logger.info('Commands are registered and is ready to go.');
 });
 
@@ -39,11 +49,15 @@ client.on('interactionCreate', async interaction => {
             case "dailybeta":
                 await interaction.deferReply();
                 return await daily(interaction);
+
             case "watchbeta":
                 await interaction.deferReply({fetchReply: true});
                 return await watch(interaction, params, skinslist);
-            case "waitlistbeta":// This is next
-                return await interaction.editReply(CreateEmbed({title:"Test Embed", description:"This is a test embed"}));
+
+            case "waitlistbeta":
+                await interaction.deferReply({fetchReply: true});
+                return await waitlist(interaction, skinslist);
+
             case "unwatchbeta":
                 return await interaction.editReply(CreateEmbed({title:"Test Embed", description:"This is a test embed"}));
             case "totalspentbeta":
