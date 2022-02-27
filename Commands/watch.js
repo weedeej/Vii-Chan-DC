@@ -57,11 +57,11 @@ export async function watch(interaction, params, skinlist) {
         currentRow.addComponents(
             new MessageButton()
                 .setLabel(`[ ${i+1} ]`)
-                .setCustomId("watch_"+similarities[i].uuid+"_"+senderID)
+                .setCustomId(`watch_${similarities[i].uuid}_${senderID}`)
                 .setStyle('PRIMARY')
         )
-
         fields.push({name: currentSkin.displayName, value: currentSkin.cost.toString(), inline: true});
+        Logger.info(`Button num: ${i}: watch_${similarities[i].uuid}_${senderID}`, senderID);
         buttonCount++;
     }
     Logger.info('Creating embed.', senderID); 
@@ -81,7 +81,6 @@ export async function watch(interaction, params, skinlist) {
             Logger.success(`<< Watch command is done: ${secDone}s (${millsDone}ms)`, senderID);
         });
 
-    startMills = Date.now();
     Logger.info('Adding Collector.', senderID);
     const filter = (buttonInteraction) => {
         return senderID === buttonInteraction.user.id;
@@ -89,14 +88,12 @@ export async function watch(interaction, params, skinlist) {
 
     const buttonPressListener = interaction.channel.createMessageComponentCollector({filter, max:1, time: 10000 });
     buttonPressListener.on('collect', async i => {
-        Logger.info(`Button pressed: ${i.customId} by ${i.user.id}`);
-    });
-
-    buttonPressListener.on('end', async (col) =>{
-        const buttonId = col.first()?.customId.split("_");
+        Logger.info(`Button pressed: ${i.customId}`, senderID);
+        const buttonId = i.customId.split("_");
         switch (buttonId[0]) {
             case "watch":
-                return await watch_button_action(col.first(), buttonId[1]);
+                await i.deferUpdate();
+                return await watch_button_action(i, buttonId[1]);
         }
     });
 }
@@ -108,11 +105,11 @@ export async function watch_button_action(interaction, skinId) {
 
     const resp = await Instance.get(`/store/${senderID}/add/${skinId}?updater_id=${updater[0]}&key=${privacyKey}`).catch(async err => {
         Logger.error(err, senderID);
-        return await interaction.editReply(CreateEmbed({title:"Error", description:"Something went wrong while adding. Please try again later.", color:'#eb4034'}));
+        return await interaction.update(CreateEmbed({title:"Error", description:"Something went wrong while adding. Please try again later.", color:'#eb4034'}));
     });
     if(resp.status != 200) { 
         Logger.error(`Error adding skin to waitlist: ${resp.status}`, senderID);
-        return await interaction.editReply(CreateEmbed({title:"Error", description:"Something went wrong while adding. Please try again later.", color:'#eb4034'}));
+        return await interaction.update(CreateEmbed({title:"Error", description:"Something went wrong while adding. Please try again later.", color:'#eb4034'}));
     }
     Logger.info(`Added to waitlist. Reflecting Response.`, senderID);
     const skinData = resp.data.data;

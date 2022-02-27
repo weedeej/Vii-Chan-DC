@@ -36,16 +36,16 @@ client.on('interactionCreate', async interaction => {
         const params = interaction.options;
         switch(commandName)
         {
-            case "daily":
+            case "dailybeta":
                 return await daily(interaction);
-            case "watch":
+            case "watchbeta":
                 return await watch(interaction, params, skinslist);
-            case "waitlist":
-                return await interaction.reply(CreateEmbed("Test Embed", "test desc", null, null, null, [{ name: "Key", value: "Value", inline: true }]));
-            case "unwatch":
-                return await interaction.reply(CreateEmbed("Test Embed", "test desc", null, null, null, [{ name: "Key", value: "Value", inline: true }]));
-            case "totalspent":
-                return await interaction.reply(CreateEmbed("Test Embed", "test desc", null, null, null, [{ name: "Key", value: "Value", inline: true }]));
+            case "waitlistbeta":// This is next
+                return await interaction.editReply(CreateEmbed({title:"Test Embed", description:"This is a test embed"}));
+            case "unwatchbeta":
+                return await interaction.editReply(CreateEmbed({title:"Test Embed", description:"This is a test embed"}));
+            case "totalspentbeta":
+                return await interaction.editReply(CreateEmbed({title:"Test Embed", description:"This is a test embed"}));
         }
         return;
     }

@@ -33,7 +33,7 @@ export async function daily(interaction) {
             ];
             await interaction.editReply(embed);
             return 0;
-        }else if(err.response.status == 400) {
+        }else if(err.response.status == 400 || err.response.status == 401) {
             Logger.error("User has expired session", senderID);
             const embed = CreateEmbed({title:"Error ", description:"Your session has expired because you changed password/riot's update revoked it. Please update your session by clicking the button below", color:'#eb4034', footer: {text: "If other users click the link, You will be able to use their account session instead of yours."}});
             embed["components"] = [
