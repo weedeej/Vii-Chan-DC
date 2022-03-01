@@ -40,7 +40,7 @@ export default async function FetchUser(interaction, senderID) {
             await interaction.editReply(embed);
             return 0;
         }
-        await interaction.editReply(CreateEmbed({title:"Error", description:"Something went wrong while fetching store. Please try again later.", color:'#eb4034'}));
+        await interaction.editReply(CreateEmbed({title:"Error", description:"Something went wrong while fetching user. Please try again later.", color:'#eb4034'}));
         return 0;
     });
     return resp;

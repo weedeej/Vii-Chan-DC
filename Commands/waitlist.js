@@ -24,10 +24,16 @@ export async function waitlist(interaction, skinlist) {
     const waitlist = resp.data.waitList;
     if (waitlist.length < 1)
     {
+        Logger.info("User have nothing in their waitlist.", senderID);
+        Logger.info("Creating exiting embed.", senderID);
         const errorEmbed = CreateEmbed({title:"W A I T L I S T", description:"You have nothing in your waitlist"});
         errorEmbed["components"] = [];
         errorEmbed["files"] = [];
-        return await interaction.editReply(errorEmbed);
+        const endMills = Date.now();
+        const millsDone = endMills - startMills;
+        const secDone = millsDone / 1000;
+        await interaction.editReply(errorEmbed);
+        return Logger.success(`Waitlist action is done: ${secDone}s (${millsDone}ms)`, senderID);
     }
     let components = [new MessageActionRow()]; // Initial Row
     let fields = [];
@@ -134,10 +140,17 @@ export async function remove_button_action(interaction, skinId, skinlist) {
     const waitlist = resp.data.data;
     if (waitlist.length < 1)
     {
+        Logger.info("User have nothing in their waitlist.", senderID);
+        Logger.info("Creating exiting embed.", senderID);
+
         const errorEmbed = CreateEmbed({title:"W A I T L I S T", description:"You have nothing in your waitlist"});
         errorEmbed["components"] = [];
         errorEmbed["files"] = [];
-        return await interaction.update(errorEmbed);
+        const endMills = Date.now();
+        const millsDone = endMills - startMills;
+        const secDone = millsDone / 1000;
+        await interaction.update(errorEmbed);
+        return Logger.success(`Waitlist action is done: ${secDone}s (${millsDone}ms)`, senderID);
     }
     let components = [new MessageActionRow()]; // Initial Row
     let fields = [];
