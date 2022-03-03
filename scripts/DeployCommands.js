@@ -16,17 +16,13 @@ const commands = [
 	new SlashCommandBuilder().setName('dailybeta')
 			.setDescription('Sends your daily offers in this channel.'),
 
-	// Watch
-	new SlashCommandBuilder().setName('watchbeta')
-			.setDescription('Watch a skin and notifies you when it appears on your store.')
-			.addStringOption(new SlashCommandStringOption().setName('skinname').setRequired(true).setDescription('The skin to watch.')),
-	// wait List
-	new SlashCommandBuilder().setName('waitlistbeta')
-			.setDescription('Sends your waitlist in this channel.'),
-	// Remove
-	new SlashCommandBuilder().setName('unwatchbeta')
-			.setDescription('Removes a skin from your wait list.')
-			.addNumberOption(new SlashCommandNumberOption().setName('position').setRequired(true).setDescription('The Index Postion of the skin to remove.')),
+	// // Watch
+	// new SlashCommandBuilder().setName('watchbeta')
+	// 		.setDescription('Watch a skin and notifies you when it appears on your store.')
+	// 		.addStringOption(new SlashCommandStringOption().setName('skinname').setRequired(true).setDescription('The skin to watch.')),
+	// // wait List
+	// new SlashCommandBuilder().setName('waitlistbeta')
+	// 		.setDescription('Sends your waitlist in this channel.'),
 	// Total Spent		
 	new SlashCommandBuilder().setName('totalspentbeta')
 			.setDescription('Responsd with the amount of how much you spent in VALORANT')

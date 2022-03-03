@@ -10,6 +10,7 @@ import { ObtainSkinlist } from './Utilities/SkinsListFetch.js'
 import { daily } from './Commands/daily.js';
 import { watch } from './Commands/watch.js';
 import { waitlist } from './Commands/waitlist.js';
+import { totalspent } from './Commands/totalspent.js';
 // Logger
 import { Logger } from './Utilities/Logger.js';
 //Cron
@@ -58,10 +59,9 @@ client.on('interactionCreate', async interaction => {
                 await interaction.deferReply({fetchReply: true});
                 return await waitlist(interaction, skinslist);
 
-            case "unwatchbeta":
-                return await interaction.editReply(CreateEmbed({title:"Test Embed", description:"This is a test embed"}));
             case "totalspentbeta":
-                return await interaction.editReply(CreateEmbed({title:"Test Embed", description:"This is a test embed"}));
+                await interaction.deferReply();
+                return await totalspent(interaction);
         }
         return;
     }
