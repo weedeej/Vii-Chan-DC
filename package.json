@@ -35,6 +35,7 @@
     "discord-api-types": "^0.27.3",
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",
+    "es6": "^0.0.7",
     "join-images": "^1.0.0",
     "node-cron": "^3.0.0",
     "sharp": "^0.30.1",
