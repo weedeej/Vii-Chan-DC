@@ -17,8 +17,9 @@ export async function totalspent(interaction) {
 	Logger.info('Obtaining payment history', senderID);
 	const response = await Instance.get(`/store/${senderID}/totalspent?updater_id=${updater}&key=${privacyKey}`).catch(async err => {
 		Logger.error(err, senderID);
-
-		const errorEmbed = CreateEmbed({ title:'Error', description:err.response.data.error, color:'#eb4034' });
+		let errorEmbed;
+		if (err.response.status === 500) {errorEmbed = CreateEmbed({ title:'Error', description:'An unknown error has occured. Please try again later.', color:'#eb4034' });}
+		else {errorEmbed = CreateEmbed({ title:'Error', description:err.response.data.error, color:'#eb4034' });}
 		return await interaction.editReply(errorEmbed);
 	});
 	Logger.info('Payment history obtained.', senderID);
