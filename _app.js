@@ -15,6 +15,7 @@ import { Logger } from './Utilities/Logger.js';
 // Cron
 import cron from 'node-cron';
 import { DailyCheck } from './Cron/DailyCheck.js';
+import { CreateEmbed } from './Utilities/EmbedGenerator.js';
 
 // Client Instance
 const token = process.env.DISCORD_BOT_TOKEN;
@@ -41,9 +42,12 @@ client.once('ready', async () => {
 client.on('interactionCreate', async interaction => {
 	if (interaction.isCommand())
 	{
-		// Defer the reply until we're ready
 		const { commandName } = interaction;
 		const params = interaction.options;
+		const senderRoles = interaction.member.roles.cache;
+		if (!senderRoles.some(role => role.rawPosition >= 7)) {
+			return await interaction.reply(CreateEmbed({ title: 'Error', description: 'Only beta testers and above are allowed to use this command.', color: '#eb4034' }));
+		}
 		switch (commandName)
 		{
 		case 'dailybeta':

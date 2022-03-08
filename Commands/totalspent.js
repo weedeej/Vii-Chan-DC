@@ -20,8 +20,10 @@ export async function totalspent(interaction) {
 		let errorEmbed;
 		if (err.response.status === 500) {errorEmbed = CreateEmbed({ title:'Error', description:'An unknown error has occured. Please try again later.', color:'#eb4034' });}
 		else {errorEmbed = CreateEmbed({ title:'Error', description:err.response.data.error, color:'#eb4034' });}
-		return await interaction.editReply(errorEmbed);
+		await interaction.editReply(errorEmbed);
+		return 0;
 	});
+	if (response === 0) return;
 	Logger.info('Payment history obtained.', senderID);
 
 	const total = response.data.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
