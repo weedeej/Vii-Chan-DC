@@ -29,7 +29,7 @@ export async function daily(interaction) {
 		fields.push({ name:offer.displayName, value:String(offer.cost) + ' VP', inline:true });
 		images.push(await axios.get(offer.displayIcon, { responseType: 'arraybuffer' }).then(res => res.data));
 	}
-	const imagePath = `./temp/${senderID}.png`;
+	const imagePath = `./temp/${senderID}-daily.png`;
 	await joinImages(images, { direction: 'horizontal', color: { alpha: 0.0, b: 0, g: 0, r: 0 } }).then(async (img) => {
 		Logger.info('Creating temporary compilation of skin images.', senderID);
 		await img.toFile(imagePath);
@@ -42,7 +42,7 @@ export async function daily(interaction) {
 		title:'D A I L Y   O F F E R S',
 		description:'These skins are currently being offered.',
 		fields,
-		imageUrl:`attachment://${senderID}.png`,
+		imageUrl:`attachment://${senderID}-daily.png`,
 		footer: { text:`${valorantPoints} VP | ${radianitePoints} RP` },
 	});
 	embed['files'] = [attachment];

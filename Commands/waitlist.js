@@ -61,7 +61,7 @@ export async function waitlist(interaction, skinlist) {
 		buttonCount++;
 	}
 
-	const imagePath = `./temp/${senderID}.png`;
+	const imagePath = `./temp/${senderID}-waitlist.png`;
 	await joinImages(images, { direction: 'horizontal', color: { alpha: 0.0, b: 0, g: 0, r: 0 } }).then(async (img) => {
 		Logger.info('Creating temporary compilation of skin images.', senderID);
 		await img.toFile(imagePath);
@@ -74,7 +74,7 @@ export async function waitlist(interaction, skinlist) {
 		title:'W A I T L I S T',
 		description:'These are your awaited skins. Click the button below to remove one of them.',
 		fields,
-		imageUrl:`attachment://${senderID}.png`,
+		imageUrl:`attachment://${senderID}-waitlist.png`,
 	});
 	embed['files'] = [attachment];
 	embed['components'] = components;
@@ -179,7 +179,7 @@ export async function remove_button_action(interaction, skinId, skinlist) {
 		buttonCount++;
 	}
 
-	const imagePath = `./temp/${senderID}.png`;
+	const imagePath = `./temp/${senderID}-waitlist.png`;
 	await joinImages(images, { direction: 'horizontal', color: { alpha: 0.0, b: 0, g: 0, r: 0 } }).then(async (img) => {
 		Logger.info('Creating temporary compilation of skin images.', senderID);
 		await img.toFile(imagePath);
@@ -192,7 +192,7 @@ export async function remove_button_action(interaction, skinId, skinlist) {
 		title:'W A I T L I S T',
 		description:'These are your awaited skins. Click the button below to remove one of them.',
 		fields,
-		imageUrl:`attachment://${senderID}.png`,
+		imageUrl:`attachment://${senderID}-waitlist.png`,
 	});
 	embed['files'] = [attachment];
 	embed['components'] = components;
