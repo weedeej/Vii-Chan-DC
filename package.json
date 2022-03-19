@@ -38,7 +38,7 @@
     "es6": "^0.0.7",
     "join-images": "^1.0.0",
     "node-cron": "^3.0.0",
-    "sharp": "^0.30.1",
+    "sharp": "^0.30.3",
     "string-cosine-similarity": "^2.0.1"
   },
   "devDependencies": {
